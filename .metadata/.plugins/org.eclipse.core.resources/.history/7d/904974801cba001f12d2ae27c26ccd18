@@ -1,0 +1,42 @@
+/*
+ * This Project contains examples of Following
+
+ * 1. Setting Up Rest Controller using @Controller @ResponseBody @RequestMapping
+ * 2. Sending Response for different mime types
+ * 3. Setting JSP page and redirect to it
+ * 4. GET, PUT, DELETE, POST Mapping Examples
+ * 5. ResponseEntity: Representation of HTTP response used to put data in ResponseBody, Header
+ * 6. ResponseBody(Coarse Grained Control ) Vs ResponseEntity(Fine Grained Control)
+ * 7. RequestBody: Used to HTTP Request body to Parameter variable
+ * 8. RequestParam: Used to map query string variable to parameter variable
+ * 9. PathVariable: User to map path variable to parameter variable
+ * 	  Example1: <scheme>://<host>:<port>/<path>?<query>#<fragment>
+ * 			    https://www.example.com:8080/products/list?category=books&price=low#section2
+ *	  Example2: https://www.example.com:8080/products/product/1
+ * 10.Autowired: Used to fetch Beans from IOC container and inject it into variables
+ * 				 It can search by name or by type
+ * 11.ConditionalOnProperty:
+ * 12.UnsatisfiedDependencyException: Occurs when multiple beans
+	 * @Primary(): We can give priority to bean which will be injected
+	 * @Qualifier(): Used to instruct Autowired to search bean by name in IOC
+	 * @Bean: Define bean using @Bean() and fetch toggle value using @Value()
+ */
+package com.hypertech.example;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.hypertech.example.aop.dao.InventoryDAO;
+
+@SpringBootApplication
+public class DemoApplication {
+
+	@Autowired(required=false)
+	InventoryDAO inventoryDAO;
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+		System.out.println("Inventory Count: "+ inventoryDAO.getInventoryCount());
+	}
+}

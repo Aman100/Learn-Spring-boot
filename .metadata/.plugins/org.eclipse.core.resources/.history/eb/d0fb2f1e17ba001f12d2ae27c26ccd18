@@ -1,0 +1,6 @@
+package com.hypertech.example.aop.dao;
+
+public class InventoryDAO {
+private Integer inventoryCount;
+
+}

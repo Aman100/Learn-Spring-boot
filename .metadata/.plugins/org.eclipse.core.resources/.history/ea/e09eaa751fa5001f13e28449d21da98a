@@ -1,0 +1,40 @@
+package com.hypertech.example.component.vehicle;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import jakarta.annotation.PostConstruct;
+
+@Component()
+public class CarOwner {
+
+	/*
+	 * UnsatisfiedDependencyException: Spring doesn't know which dependency to inject
+	 * 1. BMW
+	 * 2. Jaguar
+	 * 
+	 * How to resolve it
+	 * 1. @Primary(): We can give priority to bean which will be injected
+	 * 2. @Qualifier(): Used to instruct Autowired to search bean by name in IOC
+	 */
+	@Autowired(required=false)
+	private Car bmw;
+	
+	
+	@Autowired(required=false)
+	@Qualifier("jaguarcar")
+	private Car jaguar;
+	
+	@Autowired(required=true)
+	private Car mercedes;
+	
+	@PostConstruct()
+	public void init()
+	{
+		System.out.println("Called init() after CarOwner Bean is created");
+		bmw.move();
+		jaguar.move();
+		mercedes.move();
+	}
+}

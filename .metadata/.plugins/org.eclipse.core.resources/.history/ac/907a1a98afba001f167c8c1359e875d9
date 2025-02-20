@@ -1,0 +1,10 @@
+package com.example.SpringSecutiryLearning.Controller;
+
+@RestController()
+public class TestController {
+	@GetMapping(value="/getDetail")
+	public String getDetail()
+	{
+		return "Hello Worldddd!!!";
+	}
+}

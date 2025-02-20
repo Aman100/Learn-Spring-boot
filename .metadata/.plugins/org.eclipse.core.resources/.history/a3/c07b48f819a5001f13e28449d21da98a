@@ -1,0 +1,23 @@
+package com.hypertech.example.component.vehicle;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration()
+public class CarConfig {
+
+	@Bean()
+	public Car getCarBean(@Value("${name}") String carname)
+	{
+		Car car = null;
+		if(carname.equals("mercedes"))
+			{
+			System.out.println("");
+			car = new Mercedes();
+			}
+		else if(carname.equals("bmw")) car = new BMW();
+		else if(carname.equals("jaguar")) car = new Jaguar();
+		return car;
+	}
+}

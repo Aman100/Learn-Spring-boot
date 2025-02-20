@@ -1,0 +1,14 @@
+package com.hypertech.example.component.vehicle;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component()
+//@Qualifier("jaguarcar")
+public class Jaguar implements Car{
+
+	@Override
+	public void move() {
+		System.out.println("Move Jaguar");
+	}
+}

@@ -1,0 +1,14 @@
+package com.hypertech.example.aop.dao;
+
+public class InventoryDAO {
+private Integer inventoryCount;
+
+public Integer getInventoryCount() {
+	return inventoryCount;
+}
+
+public void setInventoryCount(Integer inventoryCount) {
+	this.inventoryCount = inventoryCount;
+}
+
+}

@@ -1,0 +1,6 @@
+package com.hypertech.example.aop.dao;
+
+@Service()
+public class UserDAO {
+
+}

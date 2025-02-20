@@ -1,0 +1,97 @@
+/*
+ * Dev Tools is working only for base package but not working for other packages which are inside base package
+ * ??????? Weird 
+ */
+
+package com.hypertech.example.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hypertech.example.entities.Inventory;
+import com.hypertech.example.service.InventoryDAO;
+import com.hypertech.example.service.TestService;
+
+@Controller()
+public class TestController {
+
+	@Autowired()
+	private TestService service;
+
+	@Autowired()
+	private InventoryDAO inventoryDAO;
+
+	/*
+	 * For Testing Spring Boot Dev Tools
+	 */
+	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = "text/html")
+	@ResponseBody()
+	public String calculate() {
+		System.out.println("HELLO");
+		return "Sum of x + y = " + service.calculate();
+	}
+
+	/*
+	 * @RequestMapping(value="/hello") Default mimeType = 'text/html' Can be
+	 * applicable on Class and Methods For putting content in Body of Response
+	 */
+	@ResponseBody()
+	@RequestMapping(value = "/hello")
+	public String test() {
+		return "<b>WTF SSAAS</b>";
+	}
+
+	/*
+	 * For JSP View resolver, the view should reside in folder named webapp
+	 */
+	@RequestMapping("/")
+	public String defaultView() {
+		return "home";
+	}
+
+	/*
+	 * OR @RequestMapping(value="/getJson",method=RequestMethod.GET,
+	 * produces="application/json")
+	 */
+	@GetMapping(value = "/getJson", produces = "application/json")
+	@ResponseBody()
+	public Map<String, String> getJson() {
+		System.out.println("COOL");
+		Map<String, String> map = new HashMap<>();
+		map.put("Name", "Aman");
+		map.put("Age", "25");
+		map.put("Gender", "M");
+		return map;
+	}
+
+	/*
+	 * Example Of GET, PUT, DELETE, POST Can
+	 * use @GetMapping(value="/getAllInventory")
+	 * 
+	 * Same logic can be extend to PUT, POST, DELETE, nothing new
+	 */
+	@RequestMapping(value = "/getAllInventory", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody()
+	public List<Inventory> getAllInventory() {
+		return inventoryDAO.getAllInventory();
+	}
+
+	@RequestMapping(value = "/getInventoryById/{inventoryId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<?> getInventoryById(@PathVariable("inventoryId") Integer id) {
+		return inventoryDAO.getInventoryById(id).map(inventory -> ResponseEntity.ok(inventory))
+				.orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("String"));
+	}
+
+}

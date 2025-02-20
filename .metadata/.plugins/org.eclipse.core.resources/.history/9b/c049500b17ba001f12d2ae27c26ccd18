@@ -1,0 +1,5 @@
+package com.hypertech.example.aop.dao;
+
+public class InventoryDAO {
+
+}

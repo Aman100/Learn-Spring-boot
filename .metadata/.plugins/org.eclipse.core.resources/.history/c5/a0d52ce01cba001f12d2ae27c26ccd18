@@ -1,0 +1,87 @@
+package com.hypertech.example.aop.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.hypertech.example.aop.dao.InventoryDAO;
+import com.hypertech.example.aop.dao.StudentDAO;
+import com.hypertech.example.aop.dao.UserDAO;
+
+@Controller("AOPExample1")
+public class AOPExample {
+
+	@Autowired(required=true)
+	private UserDAO userDAO;
+	
+	@Autowired(required=true)
+	private StudentDAO studentDAO;
+	
+	@Autowired(required=false)
+	private InventoryDAO inventoryDAO;
+	
+	@ResponseBody()
+	@RequestMapping(value="/getUserDataA",method=RequestMethod.GET,produces="text/html")
+	public String getData()
+	{
+		System.out.println("Zero Param A: Code for logging has be setup for, now sending response to client");
+		return "Aman Warudkar A";
+	}
+	
+	@ResponseBody()
+	@RequestMapping(value="/getDataA1/{a}",method=RequestMethod.GET,produces="text/html")
+	public ResponseEntity<String> getData(@PathVariable("a") String a)
+	{
+		System.out.println("Value of a : " + a);
+		System.out.println("getData One Param A: Code for logging has be setup, now sending response to client");
+		return ResponseEntity.ok(a);
+	}
+	
+	@ResponseBody()
+	@RequestMapping(value="/getUserDataA1/{a}",method=RequestMethod.GET,produces="text/html")
+	public ResponseEntity<String> getUser(@PathVariable("a") String a)
+	{
+		System.out.println("Value of a : " + a);
+		System.out.println("getUser One Param A: Code for logging has be setup, now sending response to client");
+		return ResponseEntity.ok(a);
+	}
+	
+	@ResponseBody()
+	@RequestMapping(value="/getUserDataA2/{a}/{b}",method=RequestMethod.GET,produces="text/html")
+	public ResponseEntity<String> getData(@PathVariable("a")Integer a,@PathVariable("b")Integer b)
+	{
+		System.out.println("Value of a : " + a);
+		System.out.println("Value of b : " + b);
+		System.out.println("Two Param A: Code for logging has be setup, now sending response to client");
+		return ResponseEntity.ok(String.valueOf(a+b));
+	}
+	
+	@RequestMapping(value="/processUser",method=RequestMethod.POST)
+	public void processUserData()
+	{
+		userDAO.calculateUserBase();
+		userDAO.calculatePenetrationRate();
+		System.out.println("##########################################");
+	}
+	
+	@RequestMapping(value="/processStudent",method=RequestMethod.POST)
+	public void processStudent()
+	{
+		studentDAO.calculateAverageMarks();
+		studentDAO.calculateGraceMarks();
+		studentDAO.calculateHighestMarks();
+		studentDAO.calculateMarks();
+		studentDAO.calculatePercentage();
+		System.out.println("############# Student marks, percentage are processed #############");
+	}
+	
+	@RequestMapping(value="/targetAdvice",method=RequestMethod.GET)
+	public void targetAdvice()
+	{
+		
+	}
+}

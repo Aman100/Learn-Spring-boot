@@ -1,0 +1,8 @@
+package com.hypertech.example.aop.dao;
+
+public class InventoryDAO {
+public void setInventoryCount()
+{
+return 100;	
+}
+}

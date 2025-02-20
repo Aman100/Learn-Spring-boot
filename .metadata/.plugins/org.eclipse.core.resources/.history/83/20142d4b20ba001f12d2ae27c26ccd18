@@ -1,0 +1,116 @@
+/*
+ * Aspect: 
+ * 1. It's a module which helps intercepting the method do perform some task before, after method
+ * invocation
+ * 2. It handle boilerplate code like logging, security, transaction so that we developer can focus
+ * on Business logic
+ * 3. It helps in
+ * 	a. Making code reusable
+ *  b. Reduce boilerplate code
+ *  c. Code Maintainable
+ * 
+ * AOP Terminologies
+ * 1. Advice: It's a function which will be called before and after business method
+ * 2. Point Cut: execution(public String com.hypertech.example.aop.controller.AOPExample.getData())
+ * 	  An expression which tells where advice(Method) should be applied.
+ * 	  It can be @Before method or @After method
+ * 
+ * NOTE:
+ * 1. Access modifiers in expression is optional
+ * 2. Return type is mandatory
+ * 
+ * Types of point cut
+ * 1. Execution: Matches a particular method in particular class
+ * 		@Before("execution(public String com.hypertech.example.aop.controller.AOPExample.getData())")
+ * 			A. Pattern matching: It can be applied on 
+ * 				a. Method name
+ * 				b. Return type
+ * 				c. Parameters
+ * 
+ *			B. Types of Pattern matching
+ *				a. (*) Wildcard: Match any single item
+ *						Applied on
+ *							i: return type
+ *							ii: parameter
+ *							iii: package	
+ *				b. (..) Wildcard: Match 0 or more items
+ *						Applied on
+ *							i: return type
+ *							ii: parameter
+ *							iii: package
+ *2. within:  Matches ALL METHOD within any class or package on which advice will run before,after
+ *3. @within: Advice will run (before, after) for all methods whose class is annotated with some annotation
+ *4. @annotation: Advice will run (before,after) for all methods which is annotated with some annotation 
+ *				  and has also been provided in pointcut
+ *5. args(datatype...): Advice will run(before,after) for all methods whose method parameter matches with pointcut
+ *6. target: Advice will run (before,after) for all methods of provided class in pointcut
+ *
+ *
+ *Combining Point Cuts: Use (&& OR ||)
+ *Example: @After("target("package.classname")" + "&& ")
+ */
+package com.hypertech.example.aop.aspect;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+@Component()
+@Aspect()
+public class LoggingAspect {
+	/*
+	 * Expression explanation:
+	 * 1. It matches method with any return type
+	 * 2. It matches method any method name
+	 * 3. It matches method with Zero or More Parameter
+	 * 4. It matches any packages (com.hypertech.example.aop.*.AOPExample)
+	 * 		starts with: com.hypertech.example.aop.
+	 * 		ends with: AOPExample
+	 * 5. It matches any packages (com.hypertech.example.aop..AOPExample)
+	 * 		start with: com.hypertech.example.aop
+	 * 		ends with: packages or sub packages having class AOPExample
+	 */
+	@Before("execution(* com.hypertech.example.aop.*.AOPExample.*(..))")
+	public void beforeMethod() {
+		System.out.println("A: execution(* com.hypertech.example.aop.*.AOPExample.*(..))");
+	}
+	
+	@Before("execution(* com.hypertech.example.aop.*.AOPExample.*(..))")
+	public void before() {
+		System.out.println("B: execution(* com.hypertech.example.aop.*.AOPExample.*(..))");
+	}
+	
+	@Before("@within(org.springframework.stereotype.Service)")
+	public void beforeUserDAOBusiness() {
+		System.out.println("*********** @within(org.springframework.stereotype.Service) ***********");
+	}
+	
+	@After("within(com.hypertech.example.aop.dao.StudentDAO)")
+	public void after()
+	{
+		System.out.println("*********** within(com.hypertech.example.aop.dao.StudentDAO) ************");
+	}
+	
+	@After("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+	public void afterAnnotation()
+	{
+		System.out.println("@annotation advice runs AFTER");
+	}
+	
+	@Before("args(Integer,Integer)")
+	public void args()
+	{
+		System.out.println("args(Integer,Integer) advice runs BEFORE");
+	}
+	
+	@After("target(com.hypertech.example.aop.dao.InventoryDAO)")
+	public void instanceAdvice()
+	{
+		System.out.println("Triggered TARGET ADVICE on InventoryDAO instance");
+	}
+	
+	/*
+	 * Wildcard pattern matching examples
+	 */
+}

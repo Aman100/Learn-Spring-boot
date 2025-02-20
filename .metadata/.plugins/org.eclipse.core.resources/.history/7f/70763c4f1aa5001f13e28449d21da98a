@@ -1,0 +1,13 @@
+package com.hypertech.example.component.vehicle;
+
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+public class Mercedes implements Car{
+
+	@Override
+	public void move() {
+		System.out.println("sfdsfsdfdsfdf");
+		System.out.println("Move Mercedes");
+	}
+}
